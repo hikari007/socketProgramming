@@ -129,8 +129,7 @@
     - **总体流程**
         
         - 使用socket创建套接字
-        - 
-
+        - 使用bind函数将套接字与
     - **bind()函数**
 
         ```c
@@ -153,5 +152,26 @@
         int accept (int __fd, __SOCKADDR_ARG __addr, socklen_t *__restrict __addr_len);
         ```
         
+        在fd的等待连接队列中抽取第一个连接，创建一个与fd同类的新套接字返回
 
+    - **time()函数**
         
+        ```c
+        time_t time (time_t *__timer);
+        ```
+        返回当前日历时间，若timer不为NULL，时间也存储在timer中
+
+    - **ctime()函数**
+        
+        ```c
+        char *ctime (const time_t *__timer);
+        ```
+        返回一个表示当地时间的字符串，当地时间基于timer
+
+    - **snprintf()函数**
+        
+        ```c
+        int snprintf (char *__restrict __s, size_t __maxlen, const char *__restrict __format, ...)
+        ```
+        将可变个参数按照format格式化为字符串，然后复制到字符串s中
+
