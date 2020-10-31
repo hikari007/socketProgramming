@@ -4,6 +4,13 @@
         
     [daytimetcpcli.c](../intro/daytimetcpcli.c)
 
+    - **总体流程**
+        
+        - 使用socket()创建tcp套接字
+        - 使用servaddr_in指定服务器IP地址和端口
+        - 使用connect()建立与服务器连接
+        - read()读取服务器应答
+        
     - **结构体sockaddr_in**
 
         ```c
@@ -78,6 +85,7 @@
 
         而htons()函数就是为了将**主机字节顺序(Host Byte Order)** 转换为 **网络字节顺序(Network Byte Order)**
 
+        向套接字fd写入buf缓冲区的n个字节，写入成功返回写入字节数，返回-1表示写入失败，一般不返回0，仅当第三参数为0时什么也不做，返回0
         |函数|用途|
         |:---:|:---:|
         |htonl|host to network long(32位)|
@@ -87,6 +95,7 @@
 
     - **inet_pton()函数**
         
+        向套接字fd写入buf缓冲区的n个字节，写入成功返回写入字节数，返回-1表示写入失败，一般不返回0，仅当第三参数为0时什么也不做，返回0
         我们用点分十进制表示IP地址，例如192.168.0.1，简单来说`inet_pton()`是为了将这种字符串格式转化为二进制网络字节序的IP地址
         ```c
         #include <inet.h>
@@ -112,5 +121,37 @@
         ```c
         ssize_t write (int __fd, const void *__buf, size_t __n);
         ```
+        向套接字fd写入buf缓冲区的n个字节，写入成功返回写入字节数，返回-1表示写入失败，一般不返回0，仅当第三参数为0时什么也不做，返回0
+    
+    
+- **简单的时间获取程序(服务端)**
+
+    - **总体流程**
+        
+        - 使用socket创建套接字
+        - 
+
+    - **bind()函数**
+
+        ```c
+        int bind (int __fd, __CONST_SOCKADDR_ARG __addr, socklen_t __len);
+        ```
+        将一本地地址与套接字捆绑，无错误发生返回0，否则返回-1
+
+    - **listen()函数**
+        
+        ```c
+        int listen (int __fd, int __n);
+        ```
+        使套接字fd处于监听状态，n表示请求队列数，队列外的请求将被拒绝
+
+        成功时返回0，否则返回-1
+
+    - **accept()函数**
+
+        ```c
+        int accept (int __fd, __SOCKADDR_ARG __addr, socklen_t *__restrict __addr_len);
+        ```
+        
 
         
