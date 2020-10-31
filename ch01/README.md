@@ -1,6 +1,8 @@
 # 简介
 
-- **一个简单的时间获取客户程序**
+- **简单的时间获取程序(客户端)**
+        
+    [daytimetcpcli.c](../intro/daytimetcpcli.c)
 
     - **结构体sockaddr_in**
 
@@ -66,11 +68,49 @@
         `void bzero(void *__s, size_t __n)`
         包含头文件`strings.h`，将地址开始的前n个字节置0
 
-    - **
+    - **htons()函数**
 
+        网络字节序采用**大端模式(big-endian)**，即**高字节存放在低地址，低字节存放在高地址**
 
+        x86 CPU采用**小端模式(little-endian)**，即**高字节存放在高地址，低字节存放在低地址**
 
+        例如，port: 0x1234，在网络字节存储为address, address + 1: 0x12, 0x34，而在x86 CPU内存中存储为address, address + 1:0x34, 0x12
 
+        而htons()函数就是为了将**主机字节顺序(Host Byte Order)** 转换为 **网络字节顺序(Network Byte Order)**
 
+        |函数|用途|
+        |:---:|:---:|
+        |htonl|host to network long(32位)|
+        |ntohl|network to host long(32位)| 
+        |htons|host to network short(16位)|
+        |ntohs|network to host short(16位)|
 
+    - **inet_pton()函数**
+        
+        我们用点分十进制表示IP地址，例如192.168.0.1，简单来说`inet_pton()`是为了将这种字符串格式转化为二进制网络字节序的IP地址
+        ```c
+        #include <inet.h>
+        
+        //__af常用AF_INET(IPv4), AF_INET6(IPv6)
 
+        int inet_pton (int __af, const char *__restrict __cp,void *__restrict __buf);
+        //成功返回1，不是有效表达式返回0，出错返回-1
+
+        const char *inet_ntop (int __af, const void *__restrict __cp, char *__restrict __buf, socklen_t __len)
+        //成功返回该字符串指针，出错或__len不够容纳转换结过，返回NULL
+        ```
+
+    - **read(), write()函数**
+        
+        需包括头文件<unistd.h>
+
+        ```c
+        ssize_t read(int __fd, void *__buf, size_t __nbytes);
+        ```
+        从套接字fd中读取n个字节，存入buf指针指向位置，读取成功返回读取字节数，返回-1时表示读取失败，返回0表示读取结束
+
+        ```c
+        ssize_t write (int __fd, const void *__buf, size_t __n);
+        ```
+
+        
